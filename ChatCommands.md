@@ -358,20 +358,6 @@ Load nodes from "(world folder)/schems/`<file>`.we" with position 1 of the curre
     //load some random filename
     //load huge_base
 
-### `//lua <code>`
-
-Executes `<code>` as a Lua chunk in the global namespace.
-
-    //lua worldedit.pos1["singleplayer"] = {x=0, y=0, z=0}
-    //lua worldedit.rotate(worldedit.pos1["singleplayer"], worldedit.pos2["singleplayer"], "y", 90)
-
-### `//luatransform <code>`
-
-Executes `<code>` as a Lua chunk in the global namespace with the variable pos available, for each node in the current WorldEdit region.
-
-    //luatransform minetest.add_node(pos, {name="default:stone"})
-    //luatransform if minetest.get_node(pos).name == "air" then minetest.add_node(pos, {name="default:water_source"})
-
 ### `//mtschemcreate <file>`
 
 Save the current WorldEdit region using the Minetest Schematic format to "(world folder)/schems/`<file>`.mts".
@@ -393,12 +379,6 @@ This mode can be left with `//mtschemprob finish`. `//mtschemprob get` will disp
 
     //mtschemprob get
 
-### `//clearobjects`
-
-Clears all objects within the WorldEdit region.
-
-    //clearobjects
-    
 ### `//shift x/y/z/?/up/down/left/right/front/back [+|-]<amount>`
 
 Shifts the selection area by `[+|-]<amount>` without touching its contents. The shifting axis can be absolute (`x/y/z`) or 
