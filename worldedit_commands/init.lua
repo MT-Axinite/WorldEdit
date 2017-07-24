@@ -1118,38 +1118,6 @@ minetest.register_chatcommand("/load", {
 	end,
 })
 
-minetest.register_chatcommand("/lua", {
-	params = "<code>",
-	description = "Executes <code> as a Lua chunk in the global namespace",
-	privs = {worldedit=true, server=true},
-	func = function(name, param)
-		local err = worldedit.lua(param)
-		if err then
-			worldedit.player_notify(name, "code error: " .. err)
-			minetest.log("action", name.." tried to execute "..param)
-		else
-			worldedit.player_notify(name, "code successfully executed", false)
-			minetest.log("action", name.." executed "..param)
-		end
-	end,
-})
-
-minetest.register_chatcommand("/luatransform", {
-	params = "<code>",
-	description = "Executes <code> as a Lua chunk in the global namespace with the variable pos available, for each node in the current WorldEdit region",
-	privs = {worldedit=true, server=true},
-	func = safe_region(function(name, param)
-		local err = worldedit.luatransform(worldedit.pos1[name], worldedit.pos2[name], param)
-		if err then
-			worldedit.player_notify(name, "code error: " .. err, false)
-			minetest.log("action", name.." tried to execute luatransform "..param)
-		else
-			worldedit.player_notify(name, "code successfully executed", false)
-			minetest.log("action", name.." executed luatransform "..param)
-		end
-	end),
-})
-
 minetest.register_chatcommand("/mtschemcreate", {
 	params = "<file>",
 	description = "Save the current WorldEdit region using the Minetest "..
@@ -1247,13 +1215,3 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		worldedit.prob_list[name][index] = prob_entry
 	end
 end)
-
-minetest.register_chatcommand("/clearobjects", {
-	params = "",
-	description = "Clears all objects within the WorldEdit region",
-	privs = {worldedit=true},
-	func = safe_region(function(name, param)
-		local count = worldedit.clear_objects(worldedit.pos1[name], worldedit.pos2[name])
-		worldedit.player_notify(name, count .. " objects cleared")
-	end),
-})

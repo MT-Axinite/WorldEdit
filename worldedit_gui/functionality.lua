@@ -732,37 +732,3 @@ worldedit.register_gui_handler("worldedit_gui_save_load", function(name, fields)
 	end
 	return false
 end)
-
-worldedit.register_gui_function("worldedit_gui_lua", {
-	name = "Run Lua",
-	privs = we_privs("lua"),
-	get_formspec = function(name)
-		local code = gui_code[name]
-		return "size[8,6.5]" .. worldedit.get_formspec_header("worldedit_gui_lua") ..
-			string.format("textarea[0.5,1;7.5,5.5;worldedit_gui_lua_code;Lua Code;%s]", minetest.formspec_escape(code)) ..
-			"button_exit[0,6;3,0.8;worldedit_gui_lua_run;Run Lua]" ..
-			"button_exit[5,6;3,0.8;worldedit_gui_lua_transform;Lua Transform]"
-	end,
-})
-
-worldedit.register_gui_handler("worldedit_gui_lua", function(name, fields)
-	if fields.worldedit_gui_lua_run or fields.worldedit_gui_lua_transform then
-		gui_code[name] = fields.worldedit_gui_lua_code
-		worldedit.show_page(name, "worldedit_gui_lua")
-		if fields.worldedit_gui_lua_run then
-			minetest.chatcommands["/lua"].func(name, gui_code[name])
-		else --fields.worldedit_gui_lua_transform
-			minetest.chatcommands["/luatransform"].func(name, gui_code[name])
-		end
-		return true
-	end
-	return false
-end)
-
-worldedit.register_gui_function("worldedit_gui_clearobjects", {
-	name = "Clear Objects",
-	privs = we_privs("clearobjects"),
-	on_select = function(name)
-		minetest.chatcommands["/clearobjects"].func(name, "")
-	end,
-})
